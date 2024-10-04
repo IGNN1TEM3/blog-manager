@@ -1,0 +1,78 @@
+UserProfile - модель профиля пользователя, включающий самого пользователя, дополнительную информацию о нем
+  id: (PK, Integer) — первичный ключ.
+  user_id: (FK, Integer) — внешний ключ на User, связь один к одному.
+  first_name: (String) — имя пользователя.
+  last_name: (String) — фамилия пользователя.
+  bio: (Text) — краткая информация о пользователе.
+  avatar: (String) — путь к изображению аватара.
+  birthday_date: (Date) — дата рождения.
+  country: (String) — страна пользователя.
+  subscriptions: (Integer) — количество подписок.
+  subscribers: (Integer) — количество подписчиков.
+
+User - модель самого пользователя, включающая основную информацию, через которую идет связь с остальными сущностями
+  id: (PK, Integer) — первичный ключ.
+  username: (String) — уникальное имя пользователя.
+  email: (String) — электронная почта пользователя.
+  password_hash: (String) — хэш пароля.
+  role: (String) — роль пользователя (модератор, администратор).
+  subscriptions: (Integer) — количество подписок.
+  subscribers: (Integer) — количество подписчиков.
+
+Post - модель поста
+  id: (PK, Integer) — первичный ключ.
+  title: (String) — заголовок поста.
+  content: (Text) — содержимое поста.
+  created_at: (Datetime) — дата создания поста.
+  updated_at: (Datetime) — дата последнего обновления поста.
+  status: (String) — статус поста (например, черновик, опубликован).
+  view_count: (Integer) — количество просмотров.
+  author_id: (FK, Integer) — внешний ключ на User, автор поста.
+  category_id: (FK, Integer) — внешний ключ на категорию.
+  tags: (Many-to-Many) — связь с тегами через промежуточную таблицу.
+  comment_count: (Integer) — количество комментариев к посту.
+  media: (One-to-Many) — связь с таблицей медиа-файлов.
+
+PostTag - модель связывающая пост и тэг
+  id: (PK, Integer) — первичный ключ.
+  post_id: (FK, Integer) — внешний ключ на Post, пост
+  tag_id: (FK, Integer) — внешний ключ на Tag, тэг
+
+Comment - модель комментария
+  id: (PK, Integer) — первичный ключ.
+  content: (Text) — содержимое комментария.
+  created_at: (Datetime) — дата создания комментария.
+  author_id: (FK, Integer) — внешний ключ на автора комментария.
+  post_id: (FK, Integer) — внешний ключ на пост, к которому прикреплен комментарий.
+  parent_comment_id: (FK, Integer) — ссылка на родительский комментарий (для вложенных комментариев).
+
+Category - модель категории для постов
+  id: (PK, Integer) — первичный ключ.
+  name: (String) — название категории.
+  description: (Text) — описание категории.
+  parent_category_id: (FK, Integer) — ссылка на родительскую категорию (для подкатегориий).
+
+Tag - модель тэга для постов
+  id: (PK, Integer) — первичный ключ.
+  name: (String) — название тега.
+  description: (Text) — описание тега.
+  posts: (Many-to-Many) — связь с постами через промежуточную таблицу.
+
+Media - модель для медиа файлов к постам
+  id: (PK, Integer) — первичный ключ.
+  media_type: (String) — тип медиа (например, изображение, видео).
+  file_path: (String) — путь к файлу.
+  post_id: (FK, Integer) — внешний ключ на пост, к которому прикреплен медиа-файл.
+  uploaded_at: (Datetime) — дата загрузки.
+
+Subscription - модель подписки
+  id: (PK, Integer) — первичный ключ.
+  subscriber_id: (FK, Integer) — внешний ключ на пользователя, который подписался.
+  subscribed_to_id: (FK, Integer) — внешний ключ на пользователя, на которого подписались.
+  subscribed_at: (Datetime) — дата подписки.
+
+AuditLog - модель журнала, записывающая действия пользователя
+  id: (PK, Integer) — первичный ключ.
+  user_id: (FK, Integer) — внешний ключ на пользователя, который выполнил действие.
+  description: (Text) — описание действия.
+  timestamp: (Datetime) — время и дата события.
