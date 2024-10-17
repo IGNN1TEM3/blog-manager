@@ -1,21 +1,21 @@
 UserProfile - модель профиля пользователя, включающий самого пользователя, дополнительную информацию о нем
   id: (PK, Integer) — первичный ключ.
   user_id: (FK, Integer) — внешний ключ на User, связь один к одному.
-  first_name: (String) — имя пользователя.
-  last_name: (String) — фамилия пользователя.
+  first_name: (VARCHAR(30), NOT NULL) — имя пользователя.
+  last_name: (VARCHAR(30), NOT NULL) — фамилия пользователя.
   bio: (Text) — краткая информация о пользователе.
-  avatar: (String) — путь к изображению аватара.
+  avatar: (VARCHAR(100)) — путь к изображению аватара.
   birthday_date: (Date) — дата рождения.
-  country: (String) — страна пользователя.
+  country: (VARCHAR(30)) — страна пользователя.
   subscriptions: (Integer) — количество подписок.
   subscribers: (Integer) — количество подписчиков.
 
 User - модель самого пользователя, включающая основную информацию, через которую идет связь с остальными сущностями
   id: (PK, Integer) — первичный ключ.
-  username: (String) — уникальное имя пользователя.
-  email: (String) — электронная почта пользователя.
-  password_hash: (String) — хэш пароля.
-  role: (String) — роль пользователя (модератор, администратор).
+  username: (VARCHAR(30), NOT NULL, UNIQUE) — уникальное имя пользователя.
+  email: (VARCHAR(30), UNIQUE) — электронная почта пользователя.
+  password_hash: (VARCHAR(100)) — хэш пароля.
+  role: (VARCHAR(30)) — роль пользователя (модератор, администратор).
   subscriptions: (Integer) — количество подписок.
   subscribers: (Integer) — количество подписчиков.
 
@@ -25,7 +25,7 @@ Post - модель поста
   content: (Text) — содержимое поста.
   created_at: (Datetime) — дата создания поста.
   updated_at: (Datetime) — дата последнего обновления поста.
-  status: (String) — статус поста (например, черновик, опубликован).
+  status: (VARCHAR(10)) — статус поста (например, черновик, опубликован).
   view_count: (Integer) — количество просмотров.
   author_id: (FK, Integer) — внешний ключ на User, автор поста.
   category_id: (FK, Integer) — внешний ключ на категорию.
@@ -48,20 +48,20 @@ Comment - модель комментария
 
 Category - модель категории для постов
   id: (PK, Integer) — первичный ключ.
-  name: (String) — название категории.
+  name: (VARCHAR(30), NOT NULL) — название категории.
   description: (Text) — описание категории.
   parent_category_id: (FK, Integer) — ссылка на родительскую категорию (для подкатегориий).
 
 Tag - модель тэга для постов
   id: (PK, Integer) — первичный ключ.
-  name: (String) — название тега.
+  name: (VARCHAR(30), NOT NULL) — название тега.
   description: (Text) — описание тега.
   posts: (Many-to-Many) — связь с постами через промежуточную таблицу.
 
 Media - модель для медиа файлов к постам
   id: (PK, Integer) — первичный ключ.
-  media_type: (String) — тип медиа (например, изображение, видео).
-  file_path: (String) — путь к файлу.
+  media_type: (VARCHAR(20)) — тип медиа (например, изображение, видео).
+  file_path: (VARCHAR(100), NOT NULL) — путь к файлу.
   post_id: (FK, Integer) — внешний ключ на пост, к которому прикреплен медиа-файл.
   uploaded_at: (Datetime) — дата загрузки.
 
