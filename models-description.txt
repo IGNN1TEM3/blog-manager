@@ -16,8 +16,6 @@ User - модель самого пользователя, включающая 
   email: (VARCHAR(30), UNIQUE) — электронная почта пользователя.
   password_hash: (VARCHAR(100)) — хэш пароля.
   role: (VARCHAR(30)) — роль пользователя (модератор, администратор).
-  subscriptions: (Integer) — количество подписок.
-  subscribers: (Integer) — количество подписчиков.
 
 Post - модель поста
   id: (PK, Integer) — первичный ключ.
